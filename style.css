@@ -1,0 +1,629 @@
+/* =====================================================
+   БАЗА
+===================================================== */
+:root {
+    --pink: #ff2d87;
+    --pink-light: #ff8cc0;
+    --bg: #05000a;
+    --font-main: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-hand: "Caveat", "Segoe Script", cursive;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+html {
+    background: var(--bg);
+    scroll-behavior: smooth;
+}
+
+body {
+    color: #fff;
+    font-family: var(--font-main);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+}
+
+/* =====================================================
+   ФОН
+===================================================== */
+.nebula {
+    position: fixed;
+    inset: -20%;
+    z-index: -3;
+    background:
+        radial-gradient(circle at 25% 30%, rgba(255, 0, 130, .18), transparent 30%),
+        radial-gradient(circle at 75% 70%, rgba(130, 40, 255, .16), transparent 32%),
+        radial-gradient(circle at 50% 45%, #22001a 0%, #0a000e 45%, var(--bg) 100%);
+    animation: nebulaMove 20s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaMove {
+    from { transform: scale(1) translate(0, 0); }
+    to   { transform: scale(1.12) translate(25px, -20px); }
+}
+
+#stars {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.floating-hearts {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.float-heart {
+    position: absolute;
+    bottom: -40px;
+    left: var(--x);
+    font-size: var(--size);
+    color: #ff4d9a;
+    opacity: 0;
+    text-shadow: 0 0 12px rgba(255, 77, 154, .8);
+    animation: floatUp var(--dur) linear var(--delay) infinite;
+}
+
+@keyframes floatUp {
+    0%   { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+    10%  { opacity: var(--op); }
+    50%  { transform: translate(var(--sway), -55vh) rotate(15deg); }
+    90%  { opacity: var(--op); }
+    100% { opacity: 0; transform: translate(0, -115vh) rotate(-10deg); }
+}
+
+/* =====================================================
+   ПЕРВЫЙ ЭКРАН
+===================================================== */
+.intro {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.intro-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(.72) saturate(1.1);
+    animation:
+        introReveal 2.2s cubic-bezier(.16, 1, .3, 1) both,
+        kenBurns 14s ease-in-out 2.2s infinite alternate;
+}
+
+@keyframes introReveal {
+    from { opacity: 0; transform: scale(1.15); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes kenBurns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.07); }
+}
+
+.intro-shade {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, .55) 100%),
+        linear-gradient(to bottom, rgba(0, 0, 0, .05) 0%, rgba(0, 0, 0, .15) 40%, rgba(5, 0, 10, .95) 100%);
+}
+
+.intro-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 24px calc(125px + env(safe-area-inset-bottom, 0px));
+}
+
+.intro-title {
+    font-family: var(--font-hand);
+    font-size: clamp(56px, 15vw, 96px);
+    font-weight: 700;
+    line-height: .95;
+    text-shadow:
+        0 4px 30px rgba(0, 0, 0, .85),
+        0 0 40px rgba(255, 45, 135, .4);
+    animation: riseIn 1.3s cubic-bezier(.16, 1, .3, 1) .2s both;
+}
+
+.intro-sub {
+    margin-top: 14px;
+    font-size: 17px;
+    letter-spacing: .5px;
+    color: rgba(255, 255, 255, .9);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, .8);
+    animation: riseIn 1.3s cubic-bezier(.16, 1, .3, 1) .4s both;
+}
+
+@keyframes riseIn {
+    from { opacity: 0; transform: translateY(30px); filter: blur(8px); }
+    to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+/* Стрелочка — появляется через 0.5 сек */
+.scroll-hint {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    background: rgba(255, 255, 255, .08);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    opacity: 0;
+    animation: hintIn .8s ease .5s forwards;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes hintIn {
+    from { opacity: 0; transform: translate(-50%, 15px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.scroll-text {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    opacity: .85;
+}
+
+.chevrons {
+    display: block;
+    height: 22px;
+}
+
+.chevrons i {
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin: -3px auto 0;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    opacity: 0;
+    animation: chevron 1.6s ease-in-out infinite;
+}
+
+.chevrons i:nth-child(2) {
+    animation-delay: .2s;
+}
+
+@keyframes chevron {
+    0%   { opacity: 0; transform: translateY(-6px) rotate(45deg); }
+    50%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(8px) rotate(45deg); }
+}
+
+/* =====================================================
+   СЕКЦИЯ С СЕРДЦЕМ
+===================================================== */
+.heart-section {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 12px calc(40px + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+}
+
+.heart-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(circle at center, rgba(120, 0, 70, .45), transparent 65%);
+}
+
+.heart-title {
+    font-size: clamp(22px, 6.8vw, 40px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-align: center;
+    text-shadow:
+        0 0 15px rgba(255, 40, 140, .8),
+        0 0 40px rgba(255, 40, 140, .45);
+    opacity: 0;
+    transform: translateY(-25px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(.16, 1, .3, 1);
+}
+
+.heart-stage {
+    position: relative;
+    width: min(94vw, 66vh, 560px);
+    aspect-ratio: 1 / 1;
+    margin-top: 16px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0;
+    transform: scale(.55);
+    transition:
+        opacity 1s ease .15s,
+        transform 1.3s cubic-bezier(.34, 1.56, .64, 1) .15s;
+}
+
+.heart-hint {
+    margin-top: 10px;
+    font-family: var(--font-hand);
+    font-size: 26px;
+    color: var(--pink-light);
+    opacity: 0;
+    transition: opacity 1s ease .8s;
+}
+
+/* Появление секции */
+.heart-section.show .heart-title { opacity: 1; transform: none; }
+.heart-section.show .heart-stage { opacity: 1; transform: scale(1); }
+.heart-section.show .heart-hint  { opacity: .9; }
+
+/* Само сердце */
+.heart-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform-origin: 50% 50%;
+    filter:
+        drop-shadow(0 0 16px rgba(255, 45, 135, .85))
+        drop-shadow(0 0 45px rgba(255, 45, 135, .45));
+    animation: heartbeat 1.2s ease-in-out infinite;
+}
+
+.heart-glow {
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 45, 135, .55), transparent 70%);
+    filter: blur(30px);
+    animation: glowPulse 1.2s ease-in-out infinite;
+    transition: opacity .6s ease;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14%      { transform: scale(1.12); }
+    28%      { transform: scale(1); }
+    42%      { transform: scale(1.07); }
+    56%      { transform: scale(1); }
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: .6; transform: scale(1); }
+    14%      { opacity: 1;  transform: scale(1.15); }
+    42%      { opacity: .9; transform: scale(1.08); }
+}
+
+.half {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: 50% 70%;
+}
+
+.crack {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #ff8cc0);
+}
+
+/* ---------- 1 этап: трещина ---------- */
+.heart-stage.cracking .heart-svg {
+    animation: shake .42s linear;
+}
+
+.heart-stage.cracking .whole { opacity: 0; }
+.heart-stage.cracking .half  { opacity: 1; }
+
+.heart-stage.cracking .crack {
+    animation: drawCrack .38s ease-out forwards;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translate(0, 0) rotate(0); }
+    20% { transform: translate(-4px, 1px) rotate(-2deg); }
+    40% { transform: translate(4px, -1px) rotate(2deg); }
+    60% { transform: translate(-3px, 0) rotate(-1deg); }
+    80% { transform: translate(3px, 1px) rotate(1deg); }
+}
+
+@keyframes drawCrack {
+    to { stroke-dashoffset: 0; }
+}
+
+/* ---------- 2 этап: разбивается ---------- */
+.heart-stage.broken {
+    cursor: default;
+}
+
+.heart-stage.broken .heart-svg {
+    animation: none;
+}
+
+.heart-stage.broken .heart-glow {
+    opacity: 0;
+}
+
+.heart-stage.broken .crack {
+    opacity: 0;
+    transition: opacity .25s ease;
+}
+
+.heart-stage.broken .half-left {
+    animation: flyLeft 1.2s cubic-bezier(.2, .8, .25, 1) forwards;
+}
+
+.heart-stage.broken .half-right {
+    animation: flyRight 1.2s cubic-bezier(.2, .8, .25, 1) forwards;
+}
+
+@keyframes flyLeft {
+    0%   { transform: translate(0, 0) rotate(0); opacity: 1; }
+    20%  { transform: translate(-4px, -2px) rotate(-5deg); opacity: 1; }
+    100% { transform: translate(-48px, 34px) rotate(-38deg); opacity: 0; }
+}
+
+@keyframes flyRight {
+    0%   { transform: translate(0, 0) rotate(0); opacity: 1; }
+    20%  { transform: translate(4px, -2px) rotate(5deg); opacity: 1; }
+    100% { transform: translate(48px, 34px) rotate(38deg); opacity: 0; }
+}
+
+/* Вспышка */
+.flash {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 30%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 0%, rgba(255, 140, 192, .8) 35%, transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.heart-stage.broken .flash {
+    animation: flash .7s ease-out forwards;
+}
+
+@keyframes flash {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+    25%  { opacity: 1; transform: translate(-50%, -50%) scale(1.6); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(4); }
+}
+
+/* Ударная волна */
+.shockwave {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 20%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 140, 192, .9);
+    box-shadow: 0 0 20px rgba(255, 45, 135, .6);
+    transform: translate(-50%, -50%) scale(.2);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.heart-stage.broken .shockwave {
+    animation: shockwave 1s cubic-bezier(.16, 1, .3, 1) forwards;
+}
+
+.heart-stage.broken .shockwave.second {
+    animation-delay: .15s;
+}
+
+@keyframes shockwave {
+    0%   { opacity: .9; transform: translate(-50%, -50%) scale(.2); }
+    100% { opacity: 0;  transform: translate(-50%, -50%) scale(6); }
+}
+
+/* Разлетающиеся сердечки */
+.particles {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    font-size: var(--s);
+    color: var(--c);
+    text-shadow: 0 0 10px currentColor;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+}
+
+.heart-stage.broken .particle {
+    animation: burst 1.4s cubic-bezier(.15, .8, .3, 1) var(--d) forwards;
+}
+
+@keyframes burst {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(.3); }
+    15%  { opacity: 1; }
+    100% {
+        opacity: 0;
+        transform:
+            translate(calc(-50% + var(--tx)), calc(-50% + var(--ty)))
+            scale(1)
+            rotate(var(--r));
+    }
+}
+
+.heart-section.done .heart-hint,
+.heart-section.done .heart-title {
+    opacity: 0;
+    transition: opacity .6s ease;
+}
+
+/* =====================================================
+   ФОТОГРАФИИ
+===================================================== */
+.photos {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 14px 30px;
+}
+
+.photos-title {
+    font-family: var(--font-hand);
+    font-size: clamp(44px, 12vw, 68px);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 34px;
+    text-shadow:
+        0 0 20px rgba(255, 45, 135, .7),
+        0 0 50px rgba(255, 45, 135, .35);
+}
+
+.photo {
+    margin: 0 0 30px;
+    padding: 8px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .12);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, .6),
+        0 0 40px rgba(255, 20, 110, .14);
+    opacity: 0;
+    transform: translateY(60px) scale(.92);
+    filter: blur(8px);
+    transition:
+        opacity 1.1s cubic-bezier(.16, 1, .3, 1),
+        transform 1.1s cubic-bezier(.16, 1, .3, 1),
+        filter 1.1s ease;
+}
+
+.photo.visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+.photo img,
+.photo video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 18px;
+    background: #000;
+}
+
+.video-block {
+    margin-top: 50px;
+}
+
+/* Общее появление */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity 1.2s cubic-bezier(.16, 1, .3, 1),
+        transform 1.2s cubic-bezier(.16, 1, .3, 1);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* =====================================================
+   ФИНАЛ
+===================================================== */
+.final {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    padding: 60px 24px calc(90px + env(safe-area-inset-bottom, 0px));
+}
+
+.final-text {
+    font-family: var(--font-hand);
+    font-size: clamp(60px, 17vw, 115px);
+    font-weight: 700;
+    line-height: 1;
+    text-shadow:
+        0 0 20px rgba(255, 30, 120, .85),
+        0 0 60px rgba(255, 30, 120, .45);
+}
+
+.final-heart {
+    font-size: 46px;
+    color: var(--pink);
+    text-shadow: 0 0 20px var(--pink);
+    transition-delay: .3s;
+}
+
+.final-heart.visible {
+    animation: heartbeat 1.2s ease-in-out infinite;
+}
+
+/* =====================================================
+   МЕНЬШЕ АНИМАЦИЙ (если включено в настройках телефона)
+===================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
