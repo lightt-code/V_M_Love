@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05000a">
+<title>V_M_Love ❤️</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ФОН: туманность, звёзды, летающие сердечки -->
+<div class="nebula" aria-hidden="true"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
+
+<!-- ===================== ПЕРВЫЙ ЭКРАН ===================== -->
+<section class="intro" id="intro">
+    <img class="intro-photo" src="IMG_4765.jpeg" alt="Тут мы познакомились">
+    <div class="intro-shade"></div>
+
+    <div class="intro-content">
+        <h1 class="intro-title">Тут мы<br>познакомились</h1>
+        <p class="intro-sub">и с этого всё началось ❤️</p>
+    </div>
+
+    <button class="scroll-hint" id="scrollHint" aria-label="Промотай вниз">
+        <span class="scroll-text">промотай вниз</span>
+        <span class="chevrons"><i></i><i></i></span>
+    </button>
+</section>
+
+<!-- ===================== СЕРДЦЕ ===================== -->
+<section class="heart-section" id="heartSection">
+    <h2 class="heart-title">НАЖМИ НА СЕРДЕЧКО ❤️</h2>
+
+    <button class="heart-stage" id="heartButton" aria-label="Нажми на сердечко">
+        <span class="heart-glow"></span>
+        <span class="shockwave"></span>
+        <span class="shockwave second"></span>
+        <span class="flash"></span>
+
+        <svg class="heart-svg" viewBox="-5 -5 110 100" aria-hidden="true">
+            <defs>
+                <linearGradient id="heartGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#ff8cc6"/>
+                    <stop offset=".45" stop-color="#ff2d87"/>
+                    <stop offset="1" stop-color="#b8004a"/>
+                </linearGradient>
+                <radialGradient id="heartShine" cx=".3" cy=".22" r=".35">
+                    <stop offset="0" stop-color="#ffffff" stop-opacity=".6"/>
+                    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+                </radialGradient>
+
+                <path id="heartPath" d="M50 88 C20 66 0 48 0 26 C0 11 11 0 26 0 C37 0 45 6 50 15 C55 6 63 0 74 0 C89 0 100 11 100 26 C100 48 80 66 50 88 Z"/>
+
+                <clipPath id="clipLeft">
+                    <polygon points="-5,-5 50,-5 50,15 44,30 55,45 45,60 54,75 50,95 -5,95"/>
+                </clipPath>
+                <clipPath id="clipRight">
+                    <polygon points="50,-5 105,-5 105,95 50,95 54,75 45,60 55,45 44,30 50,15"/>
+                </clipPath>
+            </defs>
+
+            <!-- Целое сердце -->
+            <g class="whole">
+                <use href="#heartPath" fill="url(#heartGrad)"/>
+                <use href="#heartPath" fill="url(#heartShine)"/>
+            </g>
+
+            <!-- Половинки -->
+            <g class="half half-left" clip-path="url(#clipLeft)">
+                <use href="#heartPath" fill="url(#heartGrad)"/>
+                <use href="#heartPath" fill="url(#heartShine)"/>
+            </g>
+            <g class="half half-right" clip-path="url(#clipRight)">
+                <use href="#heartPath" fill="url(#heartGrad)"/>
+                <use href="#heartPath" fill="url(#heartShine)"/>
+            </g>
+
+            <!-- Трещина -->
+            <polyline class="crack" pathLength="100"
+                points="50,15 44,30 55,45 45,60 54,75 50,88"/>
+        </svg>
+
+        <span class="particles" id="particles"></span>
+    </button>
+
+    <p class="heart-hint">тук-тук… это моё сердце 💗</p>
+</section>
+
+<!-- ===================== ФОТОГРАФИИ ===================== -->
+<section class="photos" id="photos" hidden>
+    <h2 class="photos-title reveal">Наши моменты</h2>
+
+    <figure class="photo"><img src="IMG_4759.jpeg" alt="Мы" loading="lazy"></figure>
+    <figure class="photo"><img src="IMG_4760.jpeg" alt="Мы" loading="lazy"></figure>
+    <figure class="photo"><img src="IMG_4761.jpeg" alt="Мы" loading="lazy"></figure>
+    <figure class="photo"><img src="IMG_4762.jpeg" alt="Мы" loading="lazy"></figure>
+    <figure class="photo"><img src="IMG_4763.jpeg" alt="Мы" loading="lazy"></figure>
+    <figure class="photo"><img src="IMG_4764.jpeg" alt="Мы" loading="lazy"></figure>
+    <figure class="photo"><img src="IMG_4766.jpeg" alt="Мы" loading="lazy"></figure>
+    <figure class="photo"><img src="IMG_4767.jpeg" alt="Мы" loading="lazy"></figure>
+
+    <figure class="photo video-block">
+        <video src="7302470960745283816.mp4" controls playsinline preload="metadata"></video>
+    </figure>
+</section>
+
+<!-- ===================== ФИНАЛ ===================== -->
+<section class="final" id="final" hidden>
+    <h2 class="final-text reveal">I miss you 🥺</h2>
+    <span class="final-heart reveal">♥</span>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
